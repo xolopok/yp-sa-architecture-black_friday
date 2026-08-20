@@ -1,0 +1,18 @@
+@startuml
+
+!pragma layout smetana
+
+!include <C4/C4_Container>
+
+title Мобильный мир: исходное состояние
+
+left to right direction
+
+System_Boundary(mobileWorld, "Мобильный мир") {
+    Container(api, "api: API", "Python", "REST API для работы с каталогом и пользователями")
+    ContainerDb(db, "db: База данных", "MongoDB/mongod", "Хранит все данные")
+}
+
+Rel_D(api, db, "Читает и записывает данные", "MongoDB Wire Protocol")
+
+@enduml
