@@ -108,4 +108,3 @@ volumes:
   shard2_1_data:
   shard2_2_data:
   shard2_3_data:
-  cache_data:
