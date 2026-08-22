@@ -79,3 +79,38 @@ $shard2R3()
 !procedure $cache()
 Container(cache, "cache: Кэш", "Redis", "Кэширует ответы GET /<collection>/users")
 !endprocedure
+
+!procedure $api1()
+Container(api_1, "api_1: API, инстанс 1", "Python", "REST API для работы с каталогом и пользователями")
+!endprocedure
+
+!procedure $api2()
+Container(api_2, "api_2: API, инстанс 2", "Python", "REST API для работы с каталогом и пользователями")
+!endprocedure
+
+!procedure $apis()
+$api1()
+$api2()
+!endprocedure
+
+!procedure $apiGtw()
+Container(api_gtw, "api_gtw: API Gateway", "Nginx", "Балансирует запросы между инстансами приложения")
+!endprocedure
+
+!procedure $sd1()
+Container(sd_1, "sd_1: Service Discovery, сервер 1 (Leader)", "Hashicorp Consul", "Service Discovery и health-check")
+!endprocedure
+
+!procedure $sd2()
+Container(sd_2, "sd_2: Service Discovery, сервер 2", "Hashicorp Consul", "Service Discovery и health-check")
+!endprocedure
+
+!procedure $sd3()
+Container(sd_3, "sd_3: Service Discovery, сервер 3", "Hashicorp Consul", "Service Discovery и health-check")
+!endprocedure
+
+!procedure $sdRs()
+$sd1()
+$sd2()
+$sd3()
+!endprocedure

@@ -58,7 +58,7 @@ docker compose up -d
 
 ## Задание 5
 
-- [ ] **Схема 4 (Service Discovery & API Gateway):** WIP
+- [x] **Схема 4 (Service Discovery & API Gateway):** ![Схема 4](docs/architecture/stage4.png)
 
 ## Задание 6
 
