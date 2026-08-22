@@ -1,0 +1,25 @@
+@startuml
+
+!pragma layout smetana
+
+!include <C4/C4_Container>
+!include _containers.puml
+
+title Мобильный мир: шардирование
+
+left to right direction
+
+System_Boundary(mobileWorld, "Мобильный мир") {
+    $api()
+    $router()
+    $cfg()
+    $shard1()
+    $shard2()
+}
+
+Rel_D(api, router, "Отправляет запросы на чтение и запись", "MongoDB Wire Protocol")
+Rel_D(router, cfg, "Читает метаданные")
+Rel_D(router, shard_1, "Читает и записывает данные")
+Rel_D(router, shard_2, "Читает и записывает данные")
+
+@enduml

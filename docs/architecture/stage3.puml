@@ -1,0 +1,44 @@
+@startuml
+!pragma layout smetana
+
+!include <C4/C4_Container>
+!include _containers.puml
+
+title Мобильный мир: шардирование, репликация и кэширование
+
+left to right direction
+
+System_Boundary(mobileWorld, "Мобильный мир") {
+    $api()
+    $router()
+    $cache()
+    $cfgRs()
+    $shard1Rs()
+    $shard2Rs()
+}
+
+Rel_D(api, router, "Отправляет запросы на чтение и запись", "MongoDB Wire Protocol")
+
+Rel_R(api, cache, "Читает и заполняет кэш (cache-aside, TTL 60 с)", "RESP")
+
+Rel_D(router, cfg_1, "Читает метаданные")
+Rel_D(router, cfg_2, "Читает метаданные")
+Rel_D(router, cfg_3, "Читает метаданные")
+
+Rel_D(router, shard_1_1, "Читает и записывает данные")
+Rel_D(router, shard_2_1, "Читает и записывает данные")
+
+Rel_D(router, shard_1_2, "Читает данные")
+Rel_D(router, shard_1_3, "Читает данные")
+Rel_D(router, shard_2_2, "Читает данные")
+Rel_D(router, shard_2_3, "Читает данные")
+
+Rel_R(cfg_1, cfg_2, "Реплицирует данные")
+Rel_L(cfg_1, cfg_3, "Реплицирует данные")
+
+Rel_R(shard_1_1, shard_1_2, "Реплицирует данные")
+Rel_L(shard_1_1, shard_1_3, "Реплицирует данные")
+Rel_R(shard_2_1, shard_2_2, "Реплицирует данные")
+Rel_L(shard_2_1, shard_2_3, "Реплицирует данные")
+
+@enduml
