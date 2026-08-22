@@ -1,0 +1,103 @@
+name: sharding-repl
+
+services:
+  db_cfg_1:
+    container_name: db_cfg_1
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --configsvr --replSet cfgrs --port 27019 --bind_ip_all
+    volumes:
+      - cfg1_data:/data/db
+
+  db_cfg_2:
+    container_name: db_cfg_2
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --configsvr --replSet cfgrs --port 27019 --bind_ip_all
+    volumes:
+      - cfg2_data:/data/db
+
+  db_cfg_3:
+    container_name: db_cfg_3
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --configsvr --replSet cfgrs --port 27019 --bind_ip_all
+    volumes:
+      - cfg3_data:/data/db
+
+  db_shard_1_1:
+    container_name: db_shard_1_1
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --shardsvr --replSet shard1rs --port 27018 --bind_ip_all
+    volumes:
+      - shard1_1_data:/data/db
+
+  db_shard_1_2:
+    container_name: db_shard_1_2
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --shardsvr --replSet shard1rs --port 27018 --bind_ip_all
+    volumes:
+      - shard1_2_data:/data/db
+
+  db_shard_1_3:
+    container_name: db_shard_1_3
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --shardsvr --replSet shard1rs --port 27018 --bind_ip_all
+    volumes:
+      - shard1_3_data:/data/db
+
+  db_shard_2_1:
+    container_name: db_shard_2_1
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --shardsvr --replSet shard2rs --port 27018 --bind_ip_all
+    volumes:
+      - shard2_1_data:/data/db
+
+  db_shard_2_2:
+    container_name: db_shard_2_2
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --shardsvr --replSet shard2rs --port 27018 --bind_ip_all
+    volumes:
+      - shard2_2_data:/data/db
+
+  db_shard_2_3:
+    container_name: db_shard_2_3
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongod --shardsvr --replSet shard2rs --port 27018 --bind_ip_all
+    volumes:
+      - shard2_3_data:/data/db
+
+  db_router:
+    container_name: db_router
+    image: dh-mirror.gitverse.ru/mongo:8.0.20
+    command: mongos --configdb cfgrs/db_cfg_1:27019,db_cfg_2:27019,db_cfg_3:27019 --port 27017 --bind_ip_all
+    depends_on:
+      - db_cfg_1
+      - db_cfg_2
+      - db_cfg_3
+      - db_shard_1_1
+      - db_shard_1_2
+      - db_shard_1_3
+      - db_shard_2_1
+      - db_shard_2_2
+      - db_shard_2_3
+
+  api:
+    container_name: api
+    image: kazhem/pymongo_api:1.0.0
+    depends_on:
+      - db_router
+    ports:
+      - 8080:8080
+    environment:
+      MONGODB_URL: "mongodb://db_router"
+      MONGODB_DATABASE_NAME: "somedb"
+
+
+volumes:
+  cfg1_data:
+  cfg2_data:
+  cfg3_data:
+  shard1_1_data:
+  shard1_2_data:
+  shard1_3_data:
+  shard2_1_data:
+  shard2_2_data:
+  shard2_3_data:
