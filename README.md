@@ -4,7 +4,7 @@
 
 ## Финальное решение
 
-Диаграмма: ![Схема 3 (шардирование + репликация + кэширование)](docs/architecture/stage3.png)
+Диаграмма: ![Схема 5 (шардирование + репликация + кэширование + Service Discovery + API Gateway + CDN)](docs/architecture/stage5.png)
 
 Директория: `sharding-repl-cache/`.
 
@@ -62,7 +62,7 @@ docker compose up -d
 
 ## Задание 6
 
-- [ ] **Схема 5 (CDN):** WIP
+- [x] **Схема 5 (CDN):** ![Схема 5](docs/architecture/stage5.png)
 
 ## Использование ИИ
 

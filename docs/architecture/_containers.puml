@@ -114,3 +114,26 @@ $sd1()
 $sd2()
 $sd3()
 !endprocedure
+
+!procedure $userRegion1()
+Person(user_region_1, "Пользователь, регион 1", "Покупатель")
+!endprocedure
+
+!procedure $userRegion2()
+Person(user_region_2, "Пользователь, регион 2", "Покупатель")
+!endprocedure
+
+!procedure $cdnRegion1()
+Container(cdn_edge_1, "cdn_edge_1: Edge-сервер CDN, регион 1", "CDN (HTTP Proxy)", "Кэширует статический контент")
+!endprocedure
+
+!procedure $cdnRegion2()
+Container(cdn_edge_2, "cdn_edge_2: Edge-сервер CDN, регион 2", "CDN (HTTP Proxy)", "Кэширует статический контент")
+!endprocedure
+
+!procedure $cdnZone()
+System_Boundary(cdnZone, "CDN") {
+    $cdnRegion1()
+    $cdnRegion2()
+}
+!endprocedure
